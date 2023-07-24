@@ -7,6 +7,11 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { gsap } from "gsap";
 
+function isMobileDevice() {
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+  return mobileQuery.matches;
+}
+
 /**
  * Base
  */
@@ -192,6 +197,14 @@ window.addEventListener("keypress", (e) => {
   }
 });
 
+window.addEventListener("dblclick", () => {
+  if (!document.fullscreenElement) {
+    canvas.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
 /**
  * Camera
  */
@@ -205,6 +218,9 @@ const camera = new THREE.PerspectiveCamera(
 // camera.position.x = 1;
 // camera.position.y = 1;
 camera.position.z = 2;
+if (isMobileDevice()) {
+  camera.position.z = 3.5;
+}
 
 // camera.lookAt(textGeometry.position);
 
